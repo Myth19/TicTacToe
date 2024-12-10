@@ -11,7 +11,7 @@ body {
     height: 100%;     /* Ensure the body takes full height */
   min-height: 100%;  /* Ensures it doesn't shrink below the viewport height */
   overflow: hidden;  /* Prevents scrollbars */
-  background-image: url('./Components/Assets/full-shot-ninja-wearing-equipment\ \(1\).jpg');
+  background-image: url('./Components/Assets/full-shot-ninja-wearing-equipment\ \(1\)\ \(2\).jpg');
   background-size: cover;  /* Ensures the background image covers the entire viewport */
   background-position: center bottom;  /* Prioritize the bottom part of the image, cropping from the top */
   background-repeat: no-repeat;  /* Prevents the image from repeating */

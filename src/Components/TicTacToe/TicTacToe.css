@@ -108,6 +108,10 @@ a {
     transition: 100ms ease;
 }
 
+.clicked{
+    transform: scale(0.95);
+}
+
 /* Box styling */
 .box {
     display: flex;
@@ -123,7 +127,7 @@ a {
     margin-right: 0.5vh;
     cursor: pointer;
     box-sizing: border-box;   /* Ensures padding and border are included in dimensions */
-    transition: transform 200ms ease; /* Smooth hover effect */
+    transition: transform 300ms ease; /* Smooth hover effect */
 }
 
 .box:hover {

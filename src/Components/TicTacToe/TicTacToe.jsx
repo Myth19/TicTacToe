@@ -10,34 +10,11 @@ let data = ["", "", "", "", "", "", "", "", ""];
 
 export const TicTacToe = () => {
   const [count, setCount] = useState(0);
-  const [lock, setLock] = useState(false); // Lock state to prevent interaction
-  const [isResetDisabled, setIsResetDisabled] = useState(false); // State for reset button disabling
+  const [lock, setLock] = useState(false);
+  const [isResetDisabled, setIsResetDisabled] = useState(false);
+  const [isComputerThinking, setIsComputerThinking] = useState(false); // New state to track computer thinking
 
-  const toggle = (e, num) => {
-    if (lock || data[num] !== "") {
-      return; // Prevent moves on a locked board or already occupied box
-    }
-
-    const currentPlayer = count % 2 === 0 ? "x" : "o"; // Determine current player
-    const icon = currentPlayer === "x" ? x_icon : o_icon;
-
-    const imgElement = document.createElement("img");
-    imgElement.src = icon;
-    imgElement.alt = currentPlayer.toUpperCase();
-    imgElement.draggable = false; // Properly disable dragging
-
-    e.target.appendChild(imgElement); // Append the image directly to the box
-    data[num] = currentPlayer;
-
-    setCount((prevCount) => prevCount + 1);
-
-    // Check if the game is over and lock the board if there's a winner
-    if (checkGameOver()) {
-      setLock(true); // Lock the board when game is over
-    }
-  };
-
-  const checkGameOver = () => {
+  const checkWinner = (board) => {
     const winningCombinations = [
       [0, 1, 2],
       [3, 4, 5],
@@ -51,32 +28,144 @@ export const TicTacToe = () => {
 
     for (let combination of winningCombinations) {
       const [a, b, c] = combination;
-      if (data[a] && data[a] === data[b] && data[a] === data[c]) {
-        won(data[a]);
-        return true;
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return board[a];
       }
     }
 
-    if (!data.includes("")) {
+    if (!board.includes("")) return "draw";
+
+    return null;
+  };
+
+  const minimax = (board, depth, isMaximizing) => {
+    const winner = checkWinner(board);
+    if (winner === "x") return -10 + depth;
+    if (winner === "o") return 10 - depth;
+    if (winner === "draw") return 0;
+
+    const availableMoves = board
+      .map((val, index) => (val === "" ? index : null))
+      .filter((val) => val !== null);
+
+    if (isMaximizing) {
+      let maxEval = -Infinity;
+      for (let move of availableMoves) {
+        board[move] = "o";
+        const score = minimax(board, depth + 1, false);
+        board[move] = "";
+        maxEval = Math.max(maxEval, score);
+      }
+      return maxEval;
+    } else {
+      let minEval = Infinity;
+      for (let move of availableMoves) {
+        board[move] = "x";
+        const score = minimax(board, depth + 1, true);
+        board[move] = "";
+        minEval = Math.min(minEval, score);
+      }
+      return minEval;
+    }
+  };
+
+  const toggle = (e, num) => {
+    if (lock || data[num] !== "") {
+      return;
+    }
+
+    const currentPlayer = count % 2 === 0 ? "x" : "o";
+    makeMove(e, num, currentPlayer);
+
+    setCount((prevCount) => prevCount + 1);
+
+    setLock(true);
+
+    if (checkGameOver()) {
+      setLock(true);
+    } else {
+      if (currentPlayer === "x") {
+        setIsComputerThinking(true); // Disable reset button while computer is thinking
+        setTimeout(computerMove, 500);
+      } else {
+        setLock(false);
+      }
+    }
+  };
+
+  const makeMove = (e, num, player) => {
+    const icon = player === "x" ? x_icon : o_icon;
+    const imgElement = document.createElement("img");
+    imgElement.src = icon;
+    imgElement.alt = player.toUpperCase();
+    imgElement.draggable = false;
+    e.target.appendChild(imgElement);
+    data[num] = player;
+  };
+
+  const computerMove = () => {
+    const availableMoves = data
+      .map((val, index) => (val === "" ? index : null))
+      .filter((val) => val !== null);
+
+    let bestMove = null;
+    let bestScore = -Infinity;
+
+    for (let move of availableMoves) {
+      data[move] = "o";
+      const score = minimax(data, 0, false);
+      data[move] = "";
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = move;
+      }
+    }
+
+    if (bestMove !== null) {
+      const box = document.querySelectorAll(".box")[bestMove];
+      makeMove({ target: box }, bestMove, "o");
+      setCount((prevCount) => prevCount + 1);
+
+      if (checkGameOver()) {
+        setLock(true);
+      } else {
+        setLock(false);
+      }
+    }
+
+    setIsComputerThinking(false); // Re-enable reset button after the computer's move
+  };
+
+  const checkGameOver = () => {
+    const winner = checkWinner(data);
+    if (winner === "x") {
+      won("x");
+      return true;
+    } else if (winner === "o") {
+      won("o");
+      return true;
+    } else if (winner === "draw") {
       toast.dark("Draw!", {
-        position: 'top-center',
-      autoClose: 2000,
-      closeOnClick: true,
-      hideProgressBar:true,
-      onClose: resetGame,
-      closeButton: false,  // Remove the close button
-      style: {
-        backgroundColor: '#1f3f40e7', // Green background color
-        color: 'white',              // White text color
-        fontSize: '20px',            // Font size
-        fontWeight: 'bold', 
-        textAlign:"center",         // Bold text
-        padding: '12px 24px',        // Padding around text
-        borderRadius: '10px',        // Rounded corners
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', // Box shadow
-      },
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+        hideProgressBar: true,
+        onClose: resetGame,
+        closeButton: false,
+        style: {
+          backgroundColor: "#1f3f40e7",
+          color: "white",
+          fontSize: "20px",
+          fontWeight: "bold",
+          textAlign: "center",
+          padding: "12px 24px",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+        },
       });
-      setLock(true); // Lock the board if it's a draw
+      setLock(true);
+      return true;
     }
 
     return false;
@@ -84,52 +173,48 @@ export const TicTacToe = () => {
 
   const won = (winner) => {
     toast.dark(`${winner.toUpperCase()} wins!`, {
-      position: 'top-center',
+      position: "top-center",
       autoClose: 2000,
       closeOnClick: true,
-      hideProgressBar:true,
+      hideProgressBar: true,
       onClose: resetGame,
-      closeButton: false,  // Remove the close button
+      closeButton: false,
       style: {
-        backgroundColor: '#1f3f40e7', // Green background color
-        color: 'white',              // White text color
-        fontSize: '20px',            // Font size
-        fontWeight: 'bold', 
-        textAlign:"center",         // Bold text
-        padding: '12px 24px',        // Padding around text
-        borderRadius: '10px',        // Rounded corners
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', // Box shadow
+        backgroundColor: "#1f3f40e7",
+        color: "white",
+        fontSize: "20px",
+        fontWeight: "bold",
+        textAlign: "center",
+        padding: "12px 24px",
+        borderRadius: "10px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
       },
     });
 
-    // Disable the reset button immediately when the game ends (win or draw)
     setIsResetDisabled(true);
   };
 
   const resetGame = () => {
     setCount(0);
     setLock(false);
-    data = ["", "", "", "", "", "", "", "", ""]; // Reset data
+
     const boxes = document.querySelectorAll(".box");
 
-    // Add the 'clicked' class to all boxes to trigger the click effect
     boxes.forEach((box) => {
       box.classList.add("clicked");
+      data = ["", "", "", "", "", "", "", "", ""];
+      boxes.forEach((box) => {
+        box.innerHTML = "";
+      });
     });
 
-    // After a short delay, remove the 'clicked' class to reset the effect
     setTimeout(() => {
       boxes.forEach((box) => {
         box.classList.remove("clicked");
       });
-    }, 300); // Duration of the effect (in ms)
+    }, 300);
 
-    boxes.forEach((box) => {
-      box.innerHTML = ""; // Clear the inner HTML of each box
-    });
-
-  
-      setIsResetDisabled(false); // Re-enable reset button after 2 seconds
+    setIsResetDisabled(false);
   };
 
   return (
@@ -152,11 +237,10 @@ export const TicTacToe = () => {
           <div className="box" onClick={(e) => toggle(e, 8)}></div>
         </div>
       </div>
-      <button className="reset" onClick={resetGame} disabled={isResetDisabled}>
+      <button className="reset" onClick={resetGame} disabled={isResetDisabled || isComputerThinking}>
         Reset
       </button>
-      <ToastContainer />{" "}
-      {/* Add ToastContainer to render toast notifications */}
+      <ToastContainer />
     </div>
   );
 };
