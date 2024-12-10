@@ -123,8 +123,12 @@
 }
 
 /* Prevent text selection */
-* {
-    user-select: none;
+*,
+input,
+textarea,
+button,
+a {
+    user-select: none;  /* Prevent text selection on input, textarea, button, and link elements */
 }
 
 /* Optionally adjust the box size for small screens */
