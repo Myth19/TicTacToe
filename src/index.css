@@ -6,8 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  margin: 0;
-  height: 100vh;  /* Ensure the body takes up the full viewport height */
+    margin: 0;        /* Ensures there's no margin causing scrolling */
+    padding: 0;       /* Ensures there's no padding causing scrolling */
+    height: 100%;     /* Ensure the body takes full height */
   min-height: 100%;  /* Ensures it doesn't shrink below the viewport height */
   overflow: hidden;  /* Prevents scrollbars */
   background-image: url('./Components/Assets/full-shot-ninja-wearing-equipment\ \(1\).jpg');

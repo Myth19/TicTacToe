@@ -89,8 +89,8 @@
     display: flex;
     justify-content: center; /* Center content horizontally */
     align-items: center;     /* Center content vertically */
-    height: 17vh;  /* Scale based on the smaller value of viewport height or width */
-    width: 17vh;   /* Scale based on the smaller value of viewport height or width */
+    height: 18vh;  /* Keeps the box size responsive to both viewport dimensions */
+    width: 18vh;   /* Prevent the box from getting too large */
     background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
     border-radius: 3vh;     /* Rounded corners */
     margin-top: 1vh;
@@ -125,4 +125,12 @@
 /* Prevent text selection */
 * {
     user-select: none;
+}
+
+/* Optionally adjust the box size for small screens */
+@media (max-width: 1280px) {
+    .box {
+        height: 12vh;  /* Reduce the height on smaller screens */
+        width: 12vh;   /* Use a larger percentage for width to adjust to screen size */
+    }
 }
