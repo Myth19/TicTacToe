@@ -11,11 +11,18 @@
     font-style: normal;
 }
 
+/* Parent container */
 .container {
-    text-align: center;
-
+    display: flex;
+    flex-direction: column;   /* Stack elements in a column */
+    justify-content: center;  /* Vertically center content */
+    align-items: center;      /* Horizontally center content */
+    height: 100vh;            /* Full viewport height */
+    width: 100vw;             /* Full viewport width */
+    position: relative;       /* Ensures proper child positioning */
 }
 
+/* Title */
 .title {
     font-family: 'tree', Arial, sans-serif;
     color: #060801;
@@ -23,8 +30,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 2vh;       /* Add space between title and board */
 }
 
+/* Board positioning (centered) */
+.board {
+    height: 60vh;            /* Set the height as a percentage of the viewport height */
+    width: 50vw;             /* Set the width as a percentage of the viewport width */
+    display: flex;
+    justify-content: center; /* Center content horizontally inside the board */
+    align-items: center;     /* Center content vertically inside the board */
+    border-radius: 2vh;      /* Optional border radius */
+    margin-bottom: 2vh;      /* Add space between board and button */
+}
+
+/* Reset Button */
 .reset {
     font-family: 'Lofi', Arial, sans-serif;
     width: 25vh;
@@ -40,7 +60,12 @@
     font-size: 5vh;
     color: #060801;  /* Text color */
     transition: all 200ms ease;
-    margin-top: 66vh;
+    margin-top: 2vh;  /* Reduced margin-top to bring button up */
+    margin-bottom: 2vh;
+    
+    display: block;  /* Ensures the element behaves as a block-level element */
+    margin-left: auto;  /* Centers the element horizontally */
+    margin-right: auto; /* Centers the element horizontally */
 }
 
 .reset:hover {
@@ -59,30 +84,28 @@
     transition: 100ms ease;
 }
 
-/* Keep the original box styling */
+/* Box styling */
 .box {
     display: flex;
     justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: 19vh;
-    width: 19vh;
+    align-items: center;     /* Center content vertically */
+    height: 17vh;  /* Scale based on the smaller value of viewport height or width */
+    width: 17vh;   /* Scale based on the smaller value of viewport height or width */
     background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
-    border-radius: 4.5vh; /* Rounded corners */
+    border-radius: 3vh;     /* Rounded corners */
     margin-top: 1vh;
     margin-bottom: 1vh;
     margin-left: 0.5vh;
     margin-right: 0.5vh;
     cursor: pointer;
-    box-sizing: border-box; /* Ensures padding and border are included in dimensions */
+    box-sizing: border-box;   /* Ensures padding and border are included in dimensions */
     transition: transform 200ms ease; /* Smooth hover effect */
 }
 
-/* When hovering over the box */
 .box:hover {
-    transform: scale(1.05); /* Slightly enlarge the box */
+    transform: scale(1.05);   /* Slightly enlarge the box */
 }
 
-/* When the box is clicked/active */
 .box:active {
     background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
     box-shadow: #1f3540 0px 0px 0px 0px;
@@ -90,35 +113,16 @@
     transition: 100ms ease;
 }
 
-.box.clicked {
-    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
-    box-shadow: #1f3540 0px 0px 0px 0px;
-    
-    transform: scale(0.95); /* Slightly enlarge the box */
-    transition: 100ms ease;
-  }
-
-/* Board positioning (centering the board) */
-.board {
-    height: 70vh;
-    width: 60vh;
-    display: flex;
-    position: absolute; /* Enables absolute positioning */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for the board's size */
-}
-
 /* Center the images inside each box */
 .box img {
     height: 10vh;
     width: 10vh;
-    max-width: 80%; /* Ensure the image fits within the box */
+    max-width: 80%;  /* Ensure the image fits within the box */
     max-height: 80%; /* Ensure the image fits within the box */
     object-fit: contain; /* Make sure the image scales without distorting */
 }
 
-
-*{
+/* Prevent text selection */
+* {
     user-select: none;
 }
