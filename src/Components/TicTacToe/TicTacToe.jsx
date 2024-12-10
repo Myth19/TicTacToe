@@ -85,7 +85,7 @@ export const TicTacToe = () => {
       setLock(true);
     } else {
       if (currentPlayer === "x") {
-        setIsComputerThinking(true); // Disable reset button while computer is thinking
+        setIsComputerThinking(true); // Disable reset button while computer is thinking :)
         setTimeout(computerMove, 500);
       } else {
         setLock(false);
