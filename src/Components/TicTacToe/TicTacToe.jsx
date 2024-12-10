@@ -12,7 +12,7 @@ export const TicTacToe = () => {
   const [count, setCount] = useState(0);
   const [lock, setLock] = useState(false);
   const [isResetDisabled, setIsResetDisabled] = useState(false);
-  const [isComputerThinking, setIsComputerThinking] = useState(false); // New state to track computer thinking
+  const [isComputerThinking, setIsComputerThinking] = useState(false); // New state to track computer thinking :)
 
   const checkWinner = (board) => {
     const winningCombinations = [
