@@ -1,0 +1,124 @@
+@font-face {
+    font-family: 'Lofi';
+    src: url('../Assets/Lofi\ Lifestyle\ Demo.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'tree';
+    src: url('../Assets/FORESTANA.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.container {
+    text-align: center;
+
+}
+
+.title {
+    font-family: 'tree', Arial, sans-serif;
+    color: #060801;
+    font-size: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset {
+    font-family: 'Lofi', Arial, sans-serif;
+    width: 25vh;
+    height: 10vh;
+    padding: 2vh 4vh;
+    border-radius: 5vh;
+    cursor: pointer;
+    border: 0;
+    background-color: white;  /* Soft blue background */
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0.8vh 1.2vh;  /* Subtle shadow */
+    letter-spacing: 0.15vh;
+    text-transform: uppercase;
+    font-size: 5vh;
+    color: #060801;  /* Text color */
+    transition: all 200ms ease;
+    margin-top: 66vh;
+}
+
+.reset:hover {
+    letter-spacing: 0.5vh;
+    background-color: #279B7F;  /* Teal hover background */
+    color: white;  /* Text color remains white */
+    box-shadow: #279B7F 0px 7px 29px 0px;  /* Shadow with the same color as background */
+}
+
+.reset:active {
+    letter-spacing: 0.3vh;
+    background-color: #16a085;  /* Darker teal for active state */
+    color: white;
+    box-shadow: #16a085 0px 0px 0px 0px;
+    transform: translateY(5px);  /* Slightly reduced translation for a smooth click effect */
+    transition: 100ms ease;
+}
+
+/* Keep the original box styling */
+.box {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: 19vh;
+    width: 19vh;
+    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
+    border-radius: 4.5vh; /* Rounded corners */
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 0.5vh;
+    margin-right: 0.5vh;
+    cursor: pointer;
+    box-sizing: border-box; /* Ensures padding and border are included in dimensions */
+    transition: transform 200ms ease; /* Smooth hover effect */
+}
+
+/* When hovering over the box */
+.box:hover {
+    transform: scale(1.05); /* Slightly enlarge the box */
+}
+
+/* When the box is clicked/active */
+.box:active {
+    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
+    box-shadow: #1f3540 0px 0px 0px 0px;
+    transform: translateY(0.5vh); /* Slightly reduced translation for smooth click effect */
+    transition: 100ms ease;
+}
+
+.box.clicked {
+    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
+    box-shadow: #1f3540 0px 0px 0px 0px;
+    
+    transform: scale(0.95); /* Slightly enlarge the box */
+    transition: 100ms ease;
+  }
+
+/* Board positioning (centering the board) */
+.board {
+    height: 70vh;
+    width: 60vh;
+    display: flex;
+    position: absolute; /* Enables absolute positioning */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for the board's size */
+}
+
+/* Center the images inside each box */
+.box img {
+    height: 10vh;
+    width: 10vh;
+    max-width: 80%; /* Ensure the image fits within the box */
+    max-height: 80%; /* Ensure the image fits within the box */
+    object-fit: contain; /* Make sure the image scales without distorting */
+}
+
+
+*{
+    user-select: none;
+}
