@@ -10,7 +10,8 @@ let data = ["", "", "", "", "", "", "", "", ""];
 
 export const TicTacToe = () => {
   const [count, setCount] = useState(0);
-  const [lock, setLock] = useState(false);
+  const [lock, setLock] = useState(false); // Lock state to prevent interaction
+  const [isResetDisabled, setIsResetDisabled] = useState(false); // State for reset button disabling
 
   const toggle = (e, num) => {
     if (lock || data[num] !== "") {
@@ -32,7 +33,7 @@ export const TicTacToe = () => {
 
     // Check if the game is over and lock the board if there's a winner
     if (checkGameOver()) {
-      setLock(true);
+      setLock(true); // Lock the board when game is over
     }
   };
 
@@ -58,19 +59,8 @@ export const TicTacToe = () => {
 
     if (!data.includes("")) {
       toast.dark("Draw!", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-      setLock(true);
-    }
-
-    return false;
-  };
-
-  const won = (winner) => {
-    toast.dark(`${winner.toUpperCase()} wins!`, {
-      position: 'top-center',
-      autoClose: 3000,
+        position: 'top-center',
+      autoClose: 2000,
       closeOnClick: true,
       hideProgressBar:true,
       onClose: resetGame,
@@ -79,14 +69,42 @@ export const TicTacToe = () => {
         backgroundColor: '#1f3f40e7', // Green background color
         color: 'white',              // White text color
         fontSize: '20px',            // Font size
-        fontWeight: 'bold',          // Bold text
+        fontWeight: 'bold', 
+        textAlign:"center",         // Bold text
+        padding: '12px 24px',        // Padding around text
+        borderRadius: '10px',        // Rounded corners
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', // Box shadow
+      },
+      });
+      setLock(true); // Lock the board if it's a draw
+    }
+
+    return false;
+  };
+
+  const won = (winner) => {
+    toast.dark(`${winner.toUpperCase()} wins!`, {
+      position: 'top-center',
+      autoClose: 2000,
+      closeOnClick: true,
+      hideProgressBar:true,
+      onClose: resetGame,
+      closeButton: false,  // Remove the close button
+      style: {
+        backgroundColor: '#1f3f40e7', // Green background color
+        color: 'white',              // White text color
+        fontSize: '20px',            // Font size
+        fontWeight: 'bold', 
+        textAlign:"center",         // Bold text
         padding: '12px 24px',        // Padding around text
         borderRadius: '10px',        // Rounded corners
         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', // Box shadow
       },
     });
+
+    // Disable the reset button immediately when the game ends (win or draw)
+    setIsResetDisabled(true);
   };
-  
 
   const resetGame = () => {
     setCount(0);
@@ -109,6 +127,9 @@ export const TicTacToe = () => {
     boxes.forEach((box) => {
       box.innerHTML = ""; // Clear the inner HTML of each box
     });
+
+  
+      setIsResetDisabled(false); // Re-enable reset button after 2 seconds
   };
 
   return (
@@ -131,7 +152,7 @@ export const TicTacToe = () => {
           <div className="box" onClick={(e) => toggle(e, 8)}></div>
         </div>
       </div>
-      <button className="reset" onClick={resetGame}>
+      <button className="reset" onClick={resetGame} disabled={isResetDisabled}>
         Reset
       </button>
       <ToastContainer />{" "}
