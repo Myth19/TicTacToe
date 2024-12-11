@@ -26,11 +26,30 @@ a {
   -ms-user-select: none !important; /* For Internet Explorer/Edge */
 }
 
+/* Prevent mobile focus glow */
+*:focus-visible {
+  outline: none !important;
+}
+
 /* Specifically target the focus and active states */
 *:focus,
 *:active {
-  outline: none; /* Remove the focus outline if it's still visible */
+  outline: none !important; /* Remove the focus outline if it's still visible */
+  -webkit-tap-highlight-color: transparent !important; /* Remove the tap highlight on iOS and Android */
 }
+
+/* For buttons and links (or any clickable elements) */
+button,
+a {
+  -webkit-tap-highlight-color: transparent; /* iOS/Android specific */
+  outline: none !important;
+}
+
+/* Prevent the blue focus glow in mobile */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 
 /* Parent container */
 .container {
@@ -67,12 +86,12 @@ a {
 }
 
 .mode-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2vh; /* Space between buttons */
-    margin-bottom: 2vh; /* Space between buttons and the board */
-    margin-top: 1vh; /* Space between buttons and the board */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh; /* Space between buttons */
+  margin-bottom: 2vh; /* Space between buttons and the board */
+  margin-top: 1vh; /* Space between buttons and the board */
 }
 
 /*button container*/
@@ -82,7 +101,7 @@ a {
   width: 12vh; /* Adjust size as needed */
   height: 6vh;
   padding: 0vh 1vh;
-  
+
   border-radius: 5vh;
   cursor: pointer;
   border: 0;
