@@ -12,7 +12,8 @@ export const TicTacToe = () => {
   const [count, setCount] = useState(0);
   const [lock, setLock] = useState(false);
   const [isResetDisabled, setIsResetDisabled] = useState(false);
-  const [isComputerThinking, setIsComputerThinking] = useState(false); // New state to track computer thinking :)
+  const [isComputerThinking, setIsComputerThinking] = useState(false);
+  const [gameMode, setGameMode] = useState("solo"); // Track game mode: "solo" or "bot"
 
   const checkWinner = (board) => {
     const winningCombinations = [
@@ -70,26 +71,28 @@ export const TicTacToe = () => {
   };
 
   const toggle = (e, num) => {
-    if (lock || data[num] !== "") {
-      return;
-    }
+    if (lock || data[num] !== "") return;
 
     const currentPlayer = count % 2 === 0 ? "x" : "o";
+
+    if (currentPlayer === "o" && gameMode === "bot") {
+      return; // Prevent the player from playing as "O" in bot mode
+    }
+
     makeMove(e, num, currentPlayer);
 
     setCount((prevCount) => prevCount + 1);
 
-    setLock(true);
-
     if (checkGameOver()) {
       setLock(true);
+    } else if (gameMode === "bot" && currentPlayer === "x") {
+      setLock(true); // Lock the board while the bot thinks
+      setIsComputerThinking(true); // Start thinking
+      setTimeout(() => {
+        computerMove();
+      }, 500);
     } else {
-      if (currentPlayer === "x") {
-        setIsComputerThinking(true); // Disable reset button while computer is thinking :)
-        setTimeout(computerMove, 500);
-      } else {
-        setLock(false);
-      }
+      setLock(false);
     }
   };
 
@@ -134,7 +137,7 @@ export const TicTacToe = () => {
       }
     }
 
-    setIsComputerThinking(false); // Re-enable reset button after the computer's move
+    setIsComputerThinking(false); // Stop thinking
   };
 
   const checkGameOver = () => {
@@ -165,6 +168,7 @@ export const TicTacToe = () => {
         },
       });
       setLock(true);
+      setIsResetDisabled(true); // Disable reset when game is over
       return true;
     }
 
@@ -191,21 +195,18 @@ export const TicTacToe = () => {
       },
     });
 
-    setIsResetDisabled(true);
+    setIsResetDisabled(true); // Disable reset button after a winner is declared
   };
 
   const resetGame = () => {
+    data = ["", "", "", "", "", "", "", "", ""];
     setCount(0);
     setLock(false);
 
     const boxes = document.querySelectorAll(".box");
-
     boxes.forEach((box) => {
       box.classList.add("clicked");
-      data = ["", "", "", "", "", "", "", "", ""];
-      boxes.forEach((box) => {
-        box.innerHTML = "";
-      });
+      box.innerHTML = "";
     });
 
     setTimeout(() => {
@@ -214,12 +215,42 @@ export const TicTacToe = () => {
       });
     }, 300);
 
-    setIsResetDisabled(false);
+    if (gameMode === "bot") {
+      setLock(false); // Player always starts in bot mode
+    }
+
+    setIsResetDisabled(false); // Enable reset when starting new game
+  };
+
+  const handleBotGame = () => {
+    setGameMode("bot");
+    resetGame();
+  };
+
+  const handleSoloGame = () => {
+    setGameMode("solo");
+    resetGame();
   };
 
   return (
     <div className="container">
       <h1 className="title">Tic-Tac-Toe</h1>
+      <div className="mode-buttons">
+        <button
+          className={`bot ${gameMode === "bot" ? "active" : ""}`}
+          onClick={handleBotGame}
+          disabled={isResetDisabled || isComputerThinking}
+        >
+          Bot
+        </button>
+        <button
+          className={`solo ${gameMode === "solo" ? "active" : ""}`}
+          onClick={handleSoloGame}
+          disabled={isResetDisabled || isComputerThinking}
+        >
+          Solo
+        </button>
+      </div>
       <div className="board">
         <div className="row1">
           <div className="box" onClick={(e) => toggle(e, 0)}></div>

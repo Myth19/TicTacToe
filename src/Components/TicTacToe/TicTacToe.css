@@ -1,15 +1,15 @@
 @font-face {
-    font-family: 'Lofi';
-    src: url('../Assets/Lofi\ Lifestyle\ Demo.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Lofi";
+  src: url("../Assets/Lofi\ Lifestyle\ Demo.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'tree';
-    src: url('../Assets/FORESTANA.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: "tree";
+  src: url("../Assets/FORESTANA.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
 }
 
 /* Prevent text selection globally */
@@ -20,157 +20,219 @@ input,
 textarea,
 button,
 a {
-    user-select: none !important; /* Disable text selection on all elements */
-    -webkit-user-select: none !important; /* For Webkit browsers */
-    -moz-user-select: none !important; /* For Firefox */
-    -ms-user-select: none !important; /* For Internet Explorer/Edge */
+  user-select: none !important; /* Disable text selection on all elements */
+  -webkit-user-select: none !important; /* For Webkit browsers */
+  -moz-user-select: none !important; /* For Firefox */
+  -ms-user-select: none !important; /* For Internet Explorer/Edge */
 }
 
 /* Specifically target the focus and active states */
 *:focus,
 *:active {
-    outline: none; /* Remove the focus outline if it's still visible */
+  outline: none; /* Remove the focus outline if it's still visible */
 }
 
 /* Parent container */
 .container {
-    display: flex;
-    flex-direction: column;   /* Stack elements in a column */
-    justify-content: center;  /* Vertically center content */
-    align-items: center;      /* Horizontally center content */
-    height: 100vh;            /* Full viewport height */
-    width: 100vw;             /* Full viewport width */
-    position: relative;       /* Ensures proper child positioning */
-    overflow: hidden;         /* Prevent overflow on small screens */
+  display: flex;
+  flex-direction: column; /* Stack elements in a column */
+  justify-content: center; /* Vertically center content */
+  align-items: center; /* Horizontally center content */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: relative; /* Ensures proper child positioning */
+  overflow: hidden; /* Prevent overflow on small screens */
 }
 
 /* Title */
 .title {
-    font-family: 'tree', Arial, sans-serif;
-    color: #364936;
-    font-size: 8vh;
+  font-family: "tree", Arial, sans-serif;
+  color: #0e170f;
+  font-size: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0vh; /* Add space between title and board */
+  margin-top: 3vh;
+}
+
+/*the button that indicates the current mode*/
+.mode-buttons button.active {
+  background-color: #29b493; /* Active button color */
+  color: white;
+}
+.mode-buttons button.active:hover {
+  background-color: #35c691; /* Active button color */
+  color: white;
+}
+
+.mode-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2vh;       /* Add space between title and board */
+    gap: 2vh; /* Space between buttons */
+    margin-bottom: 2vh; /* Space between buttons and the board */
+    margin-top: 1vh; /* Space between buttons and the board */
+}
+
+/*button container*/
+.mode-buttons button {
+  font-family: "Lofi", Arial, sans-serif;
+  font-size: 3.3vh;
+  width: 12vh; /* Adjust size as needed */
+  height: 6vh;
+  padding: 0vh 1vh;
+  
+  border-radius: 5vh;
+  cursor: pointer;
+  border: 0;
+  background-color: #ffffff; /* White background */
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0.8vh 1.2vh;
+  text-transform: uppercase;
+  color: #060801;
+  transition: all 200ms ease;
+}
+
+.mode-buttons button:hover {
+  background-color: #29b493;
+  color: white;
+}
+
+/* Hover and Active States */
+.bot:hover,
+.solo:hover {
+  letter-spacing: 0.5vh;
+  background-color: #279b7f; /* Teal hover background */
+  color: white; /* Text color remains white */
+  box-shadow: #279b7f 0px 7px 29px 0px; /* Shadow with the same color as background */
+}
+
+.bot:active,
+.solo:active {
+  background-color: #16a085;
+  transform: translateY(2px);
 }
 
 /* Board positioning (centered) */
 .board {
-    height: 60vh;            /* Set the height as a percentage of the viewport height */
-    width: 50vw;             /* Set the width as a percentage of the viewport width */
-    display: flex;
-    justify-content: center; /* Center content horizontally inside the board */
-    align-items: center;     /* Center content vertically inside the board */
-    border-radius: 2vh;      /* Optional border radius */
-    margin-bottom: 2vh;      /* Add space between board and button */
+  height: 60vh; /* Set the height as a percentage of the viewport height */
+  width: 50vw; /* Set the width as a percentage of the viewport width */
+  display: flex;
+  justify-content: center; /* Center content horizontally inside the board */
+  align-items: center; /* Center content vertically inside the board */
+  border-radius: 2vh; /* Optional border radius */
+  margin-bottom: 0vh; /* Add space between board and button */
 }
 
 /* Reset Button */
 .reset {
-    font-family: 'Lofi', Arial, sans-serif;
-    width: 25vh;             /* Adjusted size to be more responsive */
-    height: 10vh;            /* Adjusted size to be more responsive */
-    padding: 2vh 4vh;
-    border-radius: 5vh;
-    cursor: pointer;
-    border: 0;
-    background-color: white;  /* Soft blue background */
-    box-shadow: rgba(0, 0, 0, 0.1) 0 0.8vh 1.2vh;  /* Subtle shadow */
-    letter-spacing: 0.15vh;
-    text-transform: uppercase;
-    font-size: 5vh;            /* Adjusted font size for better responsiveness */
-    color: #060801;           /* Text color */
-    transition: all 200ms ease;
-    margin-top: 2vh;  /* Reduced margin-top to bring button up */
-    margin-bottom: 2vh;
-    
-    display: block;  /* Ensures the element behaves as a block-level element */
-    margin-left: auto;  /* Centers the element horizontally */
-    margin-right: auto; /* Centers the element horizontally */
-    box-sizing: border-box; /* Prevent overflow issues */
-    text-align: center; /* Ensure text is centered */
+  font-family: "Lofi", Arial, sans-serif;
+  width: 25vh; /* Adjusted size to be more responsive */
+  height: 10vh; /* Adjusted size to be more responsive */
+  padding: 2vh 4vh;
+  border-radius: 5vh;
+  cursor: pointer;
+  border: 0;
+  background-color: white; /* Soft blue background */
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0.8vh 1.2vh; /* Subtle shadow */
+  letter-spacing: 0.15vh;
+  text-transform: uppercase;
+  font-size: 5vh; /* Adjusted font size for better responsiveness */
+  color: #060801; /* Text color */
+  transition: all 200ms ease;
+  margin-top: 3vh; /* Reduced margin-top to bring button up */
+  margin-bottom: 5vh;
+
+  display: block; /* Ensures the element behaves as a block-level element */
+  margin-left: auto; /* Centers the element horizontally */
+  margin-right: auto; /* Centers the element horizontally */
+  box-sizing: border-box; /* Prevent overflow issues */
+  text-align: center; /* Ensure text is centered */
 }
 
 .reset:hover {
-    letter-spacing: 0.5vh;
-    background-color: #279B7F;  /* Teal hover background */
-    color: white;  /* Text color remains white */
-    box-shadow: #279B7F 0px 7px 29px 0px;  /* Shadow with the same color as background */
+  letter-spacing: 0.5vh;
+  background-color: #279b7f; /* Teal hover background */
+  color: white; /* Text color remains white */
+  box-shadow: #279b7f 0px 7px 29px 0px; /* Shadow with the same color as background */
 }
 
 .reset:active {
-    letter-spacing: 0.3vh;
-    background-color: #16a085;  /* Darker teal for active state */
-    color: white;
-    box-shadow: #16a085 0px 0px 0px 0px;
-    transform: translateY(5px);  /* Slightly reduced translation for a smooth click effect */
-    transition: 100ms ease;
+  letter-spacing: 0.3vh;
+  background-color: #16a085; /* Darker teal for active state */
+  color: white;
+  box-shadow: #16a085 0px 0px 0px 0px;
+  transform: translateY(
+    5px
+  ); /* Slightly reduced translation for a smooth click effect */
+  transition: 100ms ease;
 }
 
-.clicked{
-    transform: scale(0.95);
+.clicked {
+  transform: scale(0.95);
 }
 
 /* Box styling */
 .box {
-    display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center;     /* Center content vertically */
-    height: 18vh;  /* Keeps the box size responsive to both viewport dimensions */
-    width: 18vh;   /* Prevent the box from getting too large */
-    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
-    border-radius: 3vh;     /* Rounded corners */
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    margin-left: 0.5vh;
-    margin-right: 0.5vh;
-    cursor: pointer;
-    box-sizing: border-box;   /* Ensures padding and border are included in dimensions */
-    transition: transform 300ms ease; /* Smooth hover effect */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  height: 18vh; /* Keeps the box size responsive to both viewport dimensions */
+  width: 18vh; /* Prevent the box from getting too large */
+  background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
+  border-radius: 3vh; /* Rounded corners */
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: 0.5vh;
+  margin-right: 0.5vh;
+  cursor: pointer;
+  box-sizing: border-box; /* Ensures padding and border are included in dimensions */
+  transition: transform 300ms ease; /* Smooth hover effect */
 }
 
 .box:hover {
-    transform: scale(1.05);   /* Slightly enlarge the box */
+  transform: scale(1.05); /* Slightly enlarge the box */
 }
 
 .box:active {
-    background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
-    box-shadow: #1f3540 0px 0px 0px 0px;
-    transform: translateY(0.5vh); /* Slightly reduced translation for smooth click effect */
-    transition: 100ms ease;
+  background-color: rgba(31, 63, 64, 0.9); /* 0.5 is the transparency value */
+  box-shadow: #1f3540 0px 0px 0px 0px;
+  transform: translateY(
+    0.5vh
+  ); /* Slightly reduced translation for smooth click effect */
+  transition: 100ms ease;
 }
 
 /* Center the images inside each box */
 .box img {
-    height: 10vh;
-    width: 10vh;
-    max-width: 80%;  /* Ensure the image fits within the box */
-    max-height: 80%; /* Ensure the image fits within the box */
-    object-fit: contain; /* Make sure the image scales without distorting */
+  height: 10vh;
+  width: 10vh;
+  max-width: 80%; /* Ensure the image fits within the box */
+  max-height: 80%; /* Ensure the image fits within the box */
+  object-fit: contain; /* Make sure the image scales without distorting */
 }
 
 /* Prevent overflow on smaller screens */
 @media (max-width: 1280px) {
-    .box {
-        height: 12vh;  /* Reduce the height on smaller screens */
-        width: 12vh;   /* Use a larger percentage for width to adjust to screen size */
-    }
+  .box {
+    height: 12vh; /* Reduce the height on smaller screens */
+    width: 12vh; /* Use a larger percentage for width to adjust to screen size */
+  }
 
-    .reset {
-        width: 25vh;    /* Keep original size for larger screens */
-        height: 10vh;   /* Keep original size */
-        font-size: 5vh; /* Keep font size to maintain readability */
-        line-height: 5vh; /* Keep text centered */
-    }
+  .reset {
+    width: 25vh; /* Keep original size for larger screens */
+    height: 10vh; /* Keep original size */
+    font-size: 5vh; /* Keep font size to maintain readability */
+    line-height: 5vh; /* Keep text centered */
+  }
 }
 
 /* For even smaller screens */
 @media (max-width: 768px) {
-    .reset {
-        width: 20vh;
-        height: 8vh;
-        font-size: 4vh;
-        line-height: 4vh;
-    }
+  .reset {
+    width: 20vh;
+    height: 8vh;
+    font-size: 4vh;
+    line-height: 4vh;
+  }
 }
